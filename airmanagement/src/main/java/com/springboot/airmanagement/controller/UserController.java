@@ -18,7 +18,7 @@ import com.springboot.airmanagement.service.UserService;
 public class UserController {
 	
 	@Autowired
-	BookFlightService flightservice;
+	BookFlightService flightService;
 	
 	@Autowired
 	UserService userService;
@@ -45,7 +45,7 @@ public class UserController {
 	
 	@GetMapping("/flights")
 	public String listFlights(Model model) {
-		model.addAttribute("flights", flightservice.getFlights());
+		model.addAttribute("flights", flightService.getFlights());
 		return "list-flights";
 	}
 	
@@ -66,7 +66,7 @@ public class UserController {
 		
 		flight.setUser(userService.findUserByName(auth.getName()));
 		
-		flightservice.saveFlight(flight);
+		flightService.saveFlight(flight);
 		
 		
 		return "redirect:/home";
