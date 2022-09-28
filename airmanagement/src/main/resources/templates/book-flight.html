@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" th:href="@{/css/stylesheet.css}" />
+  <title>Home Page</title>
+</head>
+<body>
+
+ <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Airline Management</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a th:href="@{/home}">Home</a></li>
+        <li><a th:href="@{/news}">News</a></li>
+        <li><a th:href="@{/flights}">Status</a></li>
+        
+        <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
+        <li sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
+        
+       <li sec:authorize="isAuthenticated()"><a th:href="@{/flight/new}">Book a flight</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class = "container">
+		<div class = "row">
+			<div class = "col-lg-6 col-md-6 col-sm-6 container justify-content-center-card">
+				<h1 class = "text-center">Where would you like to go?</h1>
+				<div class = "card-body">
+					<form th:action = "@{/flights}" th:object = "${flight}" method = "POST">
+						<div class = "form-group">
+							<label>Departure</label>
+							<input type = "text" name = "departure" th:field = "*{departure}" placeholder = "Enter where you are leaving from" class = "form-control"/>
+							<label>Destination</label>
+							<input type = "text" name = "departure" th:field = "*{destination}" placeholder = "Enter where you are heading to" class = "form-control"/>
+						</div>
+						
+						<div class = "box-footer">
+							<button type="submit" class = "btn btn-primary"> 
+								Submit
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" th:src="@{/images/paris-france.jpg}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Paris</h5>
+      <p class="card-text">A very popular choice many people would want to go to</p>
+    </div>
+  </div>
+
+  <div class="card-2" style="width: 18rem;">
+    <img class="card-img-top" th:src="@{/images/London_img.jpg}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">London</h5>
+      <p class="card-text">A very popular choice many people would want to go to</p>
+    </div>
+  </div>
+
+
+</body>
+</html>
