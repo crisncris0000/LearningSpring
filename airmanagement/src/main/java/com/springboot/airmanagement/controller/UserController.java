@@ -1,5 +1,7 @@
 package com.springboot.airmanagement.controller;
 
+import com.springboot.airmanagement.entity.News;
+import com.springboot.airmanagement.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +22,9 @@ public class UserController {
 	
 	@Autowired
 	BookFlightService flightservice;
+
+	@Autowired
+	NewsService newsService;
 	
 	@Autowired
 	UserService userService;
@@ -30,7 +35,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/news")
-	public String newsPage() {
+	public String newsPage(Model model) {
+
+		model.addAttribute("posts", newsService.getPosts());
+
 		return "news";
 	}
 	
@@ -74,9 +82,18 @@ public class UserController {
 	}
 
 	@GetMapping("/flight/delete")
-	public String deleteFlight(@RequestParam("flightId") int id) {
+	public String deleteFlight(@RequestParam("flightId") int id, Model model) {
 
 		BookFlight flight = flightservice.findFlightById(id);
+
+		News news = new News();
+
+		news.setPost("Flight that is heading from " + flight.getDeparture() + " to " + flight.getDestination() +
+				" has been canceled");
+
+		model.addAttribute("post", news);
+
+		newsService.save(news);
 
 		flightservice.deleteFlight(flight);
 

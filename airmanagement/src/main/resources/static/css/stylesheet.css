@@ -39,15 +39,6 @@ ul li a{
   }
 }
 
-.add-text{
-  width: 400px;
-  height: 200px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: white;
-  border: 2px solid black;
-}
-
 .container{
   height: 300px;
   width: 400px;

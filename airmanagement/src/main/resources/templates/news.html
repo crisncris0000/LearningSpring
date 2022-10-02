@@ -28,17 +28,9 @@
     </div>
   </nav>
 
-  <div class="add-text">
-    
-    
-
+  <div th:each = "post : ${posts}">
+    <h2 th:text = "${post.post}" style="text-align: center;"></h2>
   </div>
-
-
-
-
-
-
   
 </body>
 </html>
