@@ -13,6 +13,7 @@ import com.springboot.airmanagement.entity.BookFlight;
 import com.springboot.airmanagement.entity.User;
 import com.springboot.airmanagement.service.BookFlightService;
 import com.springboot.airmanagement.service.UserService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -57,19 +58,29 @@ public class UserController {
 		
 		return "book-flight";
 	}
-	
+
 	@PostMapping("/flights")
 	public String saveFlight(@ModelAttribute("flight") BookFlight flight) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		flight.setStatus("CONFIRMED");
-		
+
 		flight.setUser(userService.findUserByName(auth.getName()));
-		
+
 		flightservice.saveFlight(flight);
-		
-		
+
+
 		return "redirect:/home";
+	}
+
+	@GetMapping("/flight/delete")
+	public String deleteFlight(@RequestParam("flightId") int id) {
+
+		BookFlight flight = flightservice.findFlightById(id);
+
+		flightservice.deleteFlight(flight);
+
+		return "redirect:/flights";
 	}
 	
 	

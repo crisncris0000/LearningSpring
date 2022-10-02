@@ -10,43 +10,49 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">Airline Management</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a th:href="@{/home}">Home</a></li>
-        <li><a th:href="@{/news}">News</a></li>
-        <li><a th:href="@{/flights}">Status</a></li>
-        
-        <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
-        <li sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
-        
-        <li sec:authorize="isAuthenticated()"><a th:href="@{/flight/new}">Book a flight</a></li>
-      </ul>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Airline Management</a>
     </div>
-  </nav>
+    <ul class="nav navbar-nav">
+      <li><a th:href="@{/home}">Home</a></li>
+      <li><a th:href="@{/news}">News</a></li>
+      <li><a th:href="@{/flights}">Status</a></li>
 
-	<p class = "text-center" style = "font-size: 50px" sec:authoriz>Must be logged in! </p>
+      <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
+      <li sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
+
+      <li sec:authorize="isAuthenticated()"><a th:href="@{/flight/new}">Book a flight</a></li>
+    </ul>
+  </div>
+</nav>
+
+<p class = "text-center" style = "font-size: 50px" sec:authorize = "isAnonymous()">Must be logged in! </p>
 
 
-  <table class="table" sec:authorize = "isAuthenticated()">
+<table class="table" sec:authorize = "isAuthenticated()">
   <thead>
-    <tr>
-      <th scope="col">Flight ID: </th>
-      <th scope="col">Departure</th>
-      <th scope="col">Destination</th>
-      <th scope="col">Status</th>
-    </tr>
+  <tr>
+    <th scope="col">Flight list</th>
+    <th scope="col">Departure</th>
+    <th scope="col">Destination</th>
+    <th scope="col">Status</th>
+    <th scope = "col"
+        sec:authorize="hasRole('ROLE_ADMIN')">Action</th>
+  </tr>
   </thead>
   <tbody>
-    <tr th:each = "flight : ${flights}">
-      <th scope="row"></th>
-      <td th:text = "${flight.departure}"></td>
-      <td th:text = "${flight.destination}"></td>
-      <td th:text = "${flight.status}"></td>
-    </tr>
+
+  <tr th:each = "flight : ${flights}">
+    <th scope="row"></th>
+    <td th:text = "${flight.departure}"></td>
+    <td th:text = "${flight.destination}"></td>
+    <td th:text = "${flight.status}"></td>
+    <td><a type="button" class="btn btn-danger"
+           th:href = "@{/flight/delete(flightId=${flight.id})}"
+           sec:authorize="hasRole('ROLE_ADMIN')">Delete</a></td>
+  </tr>
   </tbody>
 </table>
 
@@ -55,6 +61,6 @@
 
 
 
-  
+
 </body>
 </html>

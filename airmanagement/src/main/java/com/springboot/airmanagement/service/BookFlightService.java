@@ -12,6 +12,6 @@ public interface BookFlightService {
 	public void saveFlight(BookFlight flight);
 	
 	public void deleteFlight(BookFlight flight);
-	
-	
+
+	public BookFlight findFlightById(int id);
 }
